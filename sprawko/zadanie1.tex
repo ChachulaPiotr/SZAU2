@@ -1,0 +1,38 @@
+\chapter{Zadanie 1}
+	\label{ch:z1}
+	\begin{equation}
+	\left\{
+	\begin{tabular}{l}
+		$x_1(k)= - \alpha_1 x_1(k-1) + x_2(k-1) + \beta_1 g_1(u(k-3))$ \\\\
+		$x_2(k)= - \alpha_2 x_1(k-1) + \beta_2 g_1(u(k-3))$\\\\
+		$y(k)=g_2(x_1(k))$\\\\
+	\end{tabular}
+	\right.
+	\label{eq:dyskretne}
+	\end{equation}
+	gdzie $u$-sygnał wejściowy, $y$-sygnał wyjściowy, $x_1$, $x_2$ - zmienne stanu, $\alpha_1 = -1,422574$, $\alpha_2 = 0,466776$, $\beta_1 = 0,017421$, $\beta_2 = 0,013521$ oraz
+	\begin{equation}
+		g_1(u(k-3))=\frac{exp(5u(k-3))-1}{exp(5u(k-3))+1}, g_2(x_1(k))=1-exp(-1.5x_1(k))
+	\end{equation}
+	Punkt pracy $u=y=x_1=x_2=0$, $u^min=-1 : u^max = 1$.
+	W wersji statycznej:
+	\begin{equation}
+		\left\{
+		\begin{tabular}{l}
+		$x_1= - \alpha_1 x_1+x_2+ \beta_1 g_1(u)$ \\\\
+		$x_2= - \alpha_2 x_1+ \beta_2 g_1(u)$\\\\
+		$y=g_2(x_1)$\\\\
+		\end{tabular}
+		\right.
+		\label{eq:statyczne}
+	\end{equation}
+	Po przekształceniach:
+	\begin{equation}
+		x_1 = \frac{(\beta_1 + \beta_2)g_1(u)}{1+\alpha_1+\alpha_2}
+		\label{eq:x1_static}
+	\end{equation}
+	Podstawieniu równania (\ref{eq:x1_static}) do $y$ otrzymujemy
+	\begin{equation}
+		y(u) = g_2(\frac{(\beta_1 + \beta_2)g_1(u)}{1+\alpha_1+\alpha_2}
+		\label{eq:x1_static})
+	\end{equation}
