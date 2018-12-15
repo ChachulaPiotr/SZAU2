@@ -29,4 +29,8 @@ end
 y_wer = y;
 x_wer = u;
 save('danewer.mat','y_wer','x_wer');
-
+fileID=fopen('dane.txt','w');
+for i = 1:length(x_ucz)
+    fprintf(fileID,'%d %d\n',x_ucz(i),y_ucz(i));
+end
+fclose(fileID);
