@@ -5,6 +5,7 @@ fprintf(osiagi,"Liczba Neuronow\tBlad Uczenia\tBladWeryfikacji\n");
 tau = 3;
 nb = 4;
 na = 2;
+S = max(na,nb) + 1;
 maxEpoch = 100;
 err = 0.00001;
 algucz = 2; %1 - najszybszy spadek / 2 - BFGS
@@ -19,9 +20,9 @@ for i = 1:10
         system('sieci.exe');
         model
         y_mod = siec(x_wer,y_wer,w10,w20,w1,w2);
-        Ewer = (y_wer-y_mod)'*(y_wer-y_mod);
+        Ewer = (y_wer(S:end)-y_mod(S:end))'*(y_wer(S:end)-y_mod(S:end))
         y_mod = siec(x_ucz,y_ucz,w10,w20,w1,w2);
-        Eucz = (y_ucz-y_mod)'*(y_ucz-y_mod);
+        Eucz = (y_ucz(S:end)-y_mod(S:end))'*(y_ucz(S:end)-y_mod(S:end))
         if (Ewer < bestEwer(i))
             bestEwer(i)=Ewer;
             bestEucz(i)=Eucz;
