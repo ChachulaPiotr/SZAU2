@@ -1,5 +1,5 @@
-function [] = GPC(yzad)
-    global u y N Nu D tau k lambda;
+function [] = GPC()
+    global u y N Nu D tau k lambda yzad;
     y0 = zeros(N,1);
     yz = ones(N,1)*yzad;
     ys = zeros(D,1);
@@ -8,11 +8,11 @@ function [] = GPC(yzad)
     a = zeros(2,1);
     b = zeros(2,1);
     delta = 1e-5;
-    a(1) = (snout([u(k-tau-1)+delta u(k-tau-2) y(k-1) y(k-2)])-snout([u(k-tau-1) u(k-tau-2) y(k-1) y(k-2)]))/delta;
-    a(2) = (snout([u(k-tau-1) u(k-tau-2)+delta y(k-1) y(k-2)])-snout([u(k-tau-1) u(k-tau-2) y(k-1) y(k-2)]))/delta;
-    b(1) = (snout([u(k-tau-1) u(k-tau-2) y(k-1)+delta y(k-2)])-snout([u(k-tau-1) u(k-tau-2) y(k-1) y(k-2)]))/delta;
-    b(2) = (snout([u(k-tau-1) u(k-tau-2) y(k-1) y(k-2)+delta])-snout([u(k-tau-1) u(k-tau-2) y(k-1) y(k-2)]))/delta;
-    dk = y(k)-a*[u(k-tau-1);u(k-tau-2)] + b*[y(k-1);y(k-2)];
+    a(1) = (snout([u(k-tau)+delta u(k-tau-1) y(k-1) y(k-2)])-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]))/delta;
+    a(2) = (snout([u(k-tau) u(k-tau-1)+delta y(k-1) y(k-2)])-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]))/delta;
+    b(1) = (snout([u(k-tau) u(k-tau-1) y(k-1)+delta y(k-2)])-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]))/delta;
+    b(2) = (snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)+delta])-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]))/delta;
+    dk = y(k)-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]);
     y0(1) = a*[u(k-tau);u(k-tau-1)] + b*[y(k);y(k-1)]+dk;
     y0(2) = a*[u(k-tau+1);u(k-tau)] +  b*[y0(1);y(k)]+dk;
     y0(3) = a*[u(k-tau+2);u(k-tau+1)] + b*[y0(2);y0(1)]+dk;
