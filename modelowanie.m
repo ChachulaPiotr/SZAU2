@@ -20,12 +20,13 @@ for i = 1:10
         system('sieci.exe');
         model
         y_mod = siec(x_wer,y_wer,w10,w20,w1,w2);
-        Ewer = (y_wer(S:end)-y_mod(S:end))'*(y_wer(S:end)-y_mod(S:end))
+        Ewer = (y_wer(S:end)-y_mod(S:end))'*(y_wer(S:end)-y_mod(S:end));
         y_mod = siec(x_ucz,y_ucz,w10,w20,w1,w2);
-        Eucz = (y_ucz(S:end)-y_mod(S:end))'*(y_ucz(S:end)-y_mod(S:end))
+        Eucz = (y_ucz(S:end)-y_mod(S:end))'*(y_ucz(S:end)-y_mod(S:end));
         if (Ewer < bestEwer(i))
             bestEwer(i)=Ewer;
             bestEucz(i)=Eucz;
+            save(sprintf('bestM%d',i), 'w1', 'w10', 'w2', 'w20', 'Ewer', 'Eucz')
         end
     end
     fprintf(osiagi,"%d\t\t\t\t%d\t%d\n",i,bestEucz(i),bestEwer(i));
