@@ -7,12 +7,12 @@ na = 2;
 S = max(na,nb) + 1;
 model;
 
-reg = 2; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
+reg = 3; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
 
 % predykcja
 N = 10;
 Nu = 2;
-lambda = 0.2;
+lambda = 1;
 
 % PID
 Kp = 1;
@@ -60,6 +60,7 @@ for k=n0:n
         %PID
         e(k) = yz(k)-y(k);
         u(k) = r0*e(k) + r1*e(k-1) + r2*e(k-2) + u(k-1);
+        u(k) = min(max(u(k),umin), umax);
     elseif reg==3
         %NO
         wesn = [u(k-3) u(k-4) y(k-1) y(k-2)]';
@@ -67,11 +68,9 @@ for k=n0:n
         ddmc = y(k)-ym(k);
         uopt0 = u(k-1)*ones(1,Nu);
         opcje = optimset('Algorithm', 'sqp', 'TolFun', 1e-10, 'TolX', 1e-10, 'Display', 'none');%
-        uopt = fmincon(@funregno, uopt0,[],[],[],[],[],[],[],opcje);
+        uopt = fmincon(@funregno, uopt0,[],[],[],[],umin*ones(1,Nu),umax*ones(1,Nu),[],opcje);
         u(k) = uopt(1);
     end
-    
-    u(k) = min(max(u(k),umin), umax);
     
 end
 

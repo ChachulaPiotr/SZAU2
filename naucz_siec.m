@@ -5,8 +5,8 @@ load daneucz
 tau = 3;
 nb = 4;
 na = 2;
-K = 4;
-maxEpoch = 200;
+K = 5;
+maxEpoch = 400;
 err = 0.00001;
 algucz = 2; %1 - najszybszy spadek / 2 - BFGS
 trybucz = 2;%1 - arx / 2 - oe
