@@ -10,7 +10,7 @@ model;
 reg = 3; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
 N = 10;
 Nu = 2;
-lambda = 0.5;
+lambda = 0.1;
 
 n = 510;
 n0 = 10;

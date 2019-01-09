@@ -21,7 +21,7 @@ function fcelu = funregno(x)
         fcelu = fcelu + (yz(k)-y(k+p))^2;
     end
     for p = 1:Nu-1
-        fcelu = fcelu + lambda*du(k+p);
+        fcelu = fcelu + lambda*du(k+p)^2;
     end
     
 end
