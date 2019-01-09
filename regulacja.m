@@ -7,10 +7,21 @@ na = 2;
 S = max(na,nb) + 1;
 model;
 
-reg = 3; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
+reg = 2; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
+
+% predykcja
 N = 10;
 Nu = 2;
-lambda = 0.1;
+lambda = 0.2;
+
+% PID
+Kp = 1;
+Ti = 10;
+Td = 0.1;
+T = 1;
+r0 = Kp*(1+T/2/Ti+Td/T);
+r1 = Kp*(T/2/Ti - 2*Td/T - 1);
+r2 = Kp*Td/T;
 
 n = 510;
 n0 = 10;
@@ -27,11 +38,13 @@ x1 = zeros(n,1);
 x2 = zeros(n,1);
 
 y = zeros(n+N,1);
+ym = zeros(n,1);
 yz = zeros(n,1);
 z = [0.5 -1.5 0.25 -0.75 0];
 for i=1:length(z)
     yz((i-1)*100+10:end,1)=z(i);
 end
+e = zeros(n,1);
 
 for k=n0:n
     k
@@ -45,11 +58,13 @@ for k=n0:n
         %GPC
     elseif reg==2
         %PID
+        e(k) = yz(k)-y(k);
+        u(k) = r0*e(k) + r1*e(k-1) + r2*e(k-2) + u(k-1);
     elseif reg==3
         %NO
         wesn = [u(k-3) u(k-4) y(k-1) y(k-2)]';
-        ym = w20 + w2*tanh(w10+w1*wesn);
-        ddmc = y(k)-ym;
+        ym(k) = w20 + w2*tanh(w10+w1*wesn);
+        ddmc = y(k)-ym(k);
         uopt0 = u(k-1)*ones(1,Nu);
         opcje = optimset('Algorithm', 'sqp', 'TolFun', 1e-10, 'TolX', 1e-10, 'Display', 'none');%
         uopt = fmincon(@funregno, uopt0,[],[],[],[],[],[],[],opcje);
@@ -71,5 +86,3 @@ subplot(4,1,4)
 plot(y(1:n))
 hold on
 plot(yz)
-
-
