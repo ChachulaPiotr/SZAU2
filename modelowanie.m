@@ -7,14 +7,14 @@ tau = 3;
 nb = 4;
 na = 2;
 S = max(na,nb) + 1;
-maxEpoch = 100;
+maxEpoch = 200;
 err = 0.00001;
 algucz = 2; %1 - najszybszy spadek / 2 - BFGS
 trybucz = 2;%1 - arx / 2 - oe
 bestEucz = ones(10,1)*10000000;
 bestEwer = ones(10,1)*10000000;
 for i = 1:10
-    for j = 1:10
+    for j = 1:5
         ustawienia = fopen('ustawienia.txt','w');
         fprintf(ustawienia,'%d %d %d %d %d %f %d %d',tau,nb,na,i,maxEpoch,err,algucz,trybucz);
         fclose(ustawienia);
@@ -25,7 +25,6 @@ for i = 1:10
         Ewer = (y_wer(S:end)-y_mod(S:end))'*(y_wer(S:end)-y_mod(S:end))
         y_mod = siec(x_ucz,y_ucz,w10,w20,w1,w2);
         Eucz = (y_ucz(S:end)-y_mod(S:end))'*(y_ucz(S:end)-y_mod(S:end))
-%         uczenie
         if (Ewer < bestEwer(i))
             bestEwer(i)=Ewer;
             bestEucz(i)=Eucz;
