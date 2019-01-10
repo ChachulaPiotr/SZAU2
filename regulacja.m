@@ -1,28 +1,22 @@
 clear variables
 close all
-global N Nu lambda w1 w10 w2 w20 yz y u du ddmc k K b a;
+global N Nu lambda w1 w10 w2 w20 yz y u du ddmc k K b a delta na nb tau;
 tau = 3;
 nb = 4;
 na = 2;
 S = max(na,nb) + 1;
 model;
 
-reg = 1; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
+reg = 0; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
 
 % predykcja
 N = 10;
 Nu = 2;
 lambda = 1;
 
-% PID
-if reg == 2
-    Kp = 1;
-    Ti = 10;
-    Td = 0.1;
-    T = 1;
-    r0 = Kp*(1+T/2/Ti+Td/T);
-    r1 = Kp*(T/2/Ti - 2*Td/T - 1);
-    r2 = Kp*Td/T;
+% NPL
+if reg == 0
+    delta = 1e-5;
 end
 
 % GPC
@@ -31,9 +25,9 @@ if reg == 1
     M = [x_ucz(2:1997) x_ucz(1:1996) y_ucz(4:1999) y_ucz(3:1998)];
     w = M\y_ucz(5:end);
     s = zeros(N,1);
-    b = zeros(N,1);
+    b = zeros(nb,1);
     b(3:4) = w(1:2);
-    a = zeros(N,1);
+    a = zeros(na,1);
     a(1:2) = -w(3:4);
     for j=1:N
         s(j) = 0;
@@ -57,9 +51,15 @@ if reg == 1
     K = (M'*M + lambda*ones(Nu,Nu))^-1*M';
 end
 
-% NPL
-if reg == 0
-    delta = 1e-5;
+% PID
+if reg == 2
+    Kp = 1;
+    Ti = 10;
+    Td = 0.1;
+    T = 1;
+    r0 = Kp*(1+T/2/Ti+Td/T);
+    r1 = Kp*(T/2/Ti - 2*Td/T - 1);
+    r2 = Kp*Td/T;
 end
 
 n = 510;
@@ -93,6 +93,12 @@ for k=n0:n
     
     if reg==0
         %NPL
+        wesn = [u(k-3) u(k-4) y(k-1) y(k-2)]';
+        ym(k) = w20 + w2*tanh(w10+w1*wesn);
+        ddmc = y(k)-ym(k);
+        funregnpl();
+        u(k) = u(k-1) + du(k);
+        u(k) = min(max(u(k),umin), umax);
     elseif reg==1
         %GPC
         ym(k) = b(3)*u(k-3)+b(4)*u(k-4)-a(1)*y(k-1)-a(2)*y(k-2);
