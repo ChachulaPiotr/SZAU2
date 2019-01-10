@@ -1,13 +1,13 @@
 clear variables
 close all
-global N Nu lambda w1 w10 w2 w20 yz y u du ddmc k;
+global N Nu lambda w1 w10 w2 w20 yz y u du ddmc k K b a;
 tau = 3;
 nb = 4;
 na = 2;
 S = max(na,nb) + 1;
 model;
 
-reg = 3; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
+reg = 1; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
 
 % predykcja
 N = 10;
@@ -15,13 +15,52 @@ Nu = 2;
 lambda = 1;
 
 % PID
-Kp = 1;
-Ti = 10;
-Td = 0.1;
-T = 1;
-r0 = Kp*(1+T/2/Ti+Td/T);
-r1 = Kp*(T/2/Ti - 2*Td/T - 1);
-r2 = Kp*Td/T;
+if reg == 2
+    Kp = 1;
+    Ti = 10;
+    Td = 0.1;
+    T = 1;
+    r0 = Kp*(1+T/2/Ti+Td/T);
+    r1 = Kp*(T/2/Ti - 2*Td/T - 1);
+    r2 = Kp*Td/T;
+end
+
+% GPC
+if reg == 1
+    load('daneucz');
+    M = [x_ucz(2:1997) x_ucz(1:1996) y_ucz(4:1999) y_ucz(3:1998)];
+    w = M\y_ucz(5:end);
+    s = zeros(N,1);
+    b = zeros(N,1);
+    b(3:4) = w(1:2);
+    a = zeros(N,1);
+    a(1:2) = -w(3:4);
+    for j=1:N
+        s(j) = 0;
+        for i = 1:min(j,nb)
+            s(j) = s(j) + b(i);
+        end
+        for i = 1:min(j-1,na)
+            s(j) = s(j) - a(i)*s(j-i);
+        end
+    end
+    
+    M = zeros(N,Nu);
+    for i = 1 : N
+        for j = 1 : Nu
+            if (i-j+1)>0
+                M(i,j)=s(i-j+1);
+            end
+        end
+    end
+    
+    K = (M'*M + lambda*ones(Nu,Nu))^-1*M';
+end
+
+% NPL
+if reg == 0
+    delta = 1e-5;
+end
 
 n = 510;
 n0 = 10;
@@ -56,6 +95,11 @@ for k=n0:n
         %NPL
     elseif reg==1
         %GPC
+        ym(k) = b(3)*u(k-3)+b(4)*u(k-4)-a(1)*y(k-1)-a(2)*y(k-2);
+        ddmc = y(k)-ym(k);
+        funreggpc();
+        u(k) = u(k-1) + du(k);
+        u(k) = min(max(u(k),umin), umax);
     elseif reg==2
         %PID
         e(k) = yz(k)-y(k);
