@@ -20,7 +20,7 @@ function fcelu = funregno(x)
     for p=1:N
         fcelu = fcelu + (yz(k)-y(k+p))^2;
     end
-    for p = 1:Nu-1
+    for p = 0:Nu-1
         fcelu = fcelu + lambda*du(k+p)^2;
     end
     
