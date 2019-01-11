@@ -17,7 +17,7 @@
 	\section{Dobór liczby neuronów}
 		\label{sec:neurony}
 		
-		W celu dobrania odpowiedniej liczby neuronów dla sieci zastosowaliśmy wielokrotne uczenie z użyciem programu $sieci.exe$. Dla każdej ilości neuronów ukrytych od 1 do 10 dokonaliśmy 5 procesów uczenia za pomocą algorytmu BFGS z wykorzystaniem rekurencji. W tym celu wykorzystaliśmy skrypt $modelowanie.m$. Najmniejszy uzyskany błąd uczenia wraz ze skojarzonym z nim błędem weryfikacji przedstawiony został w tabeli poniżej. Najmniejszy błąd dla obydwu zbiorów występuje dla 9 neuronów. Ostatecznie jednak zdecydowaliśmy się na użycie sieci z pięcioma neuronami ukrytymi. Powodem tego jest mała poprawa w stosunku do większych ilości neuronów oraz chęć zmniejszenia nakładu obliczeń. Dodatkowo sieci o zbyt dużej ilości neuronów ukrytych mają tendencję do przetrenowywania się, w wyniku którego sieć przystosowuje się nie tyle do procesu co do samych danych uczących.
+		W celu dobrania odpowiedniej liczby neuronów dla sieci zastosowaliśmy wielokrotne uczenie z użyciem programu $sieci.exe$. Dla każdej ilości neuronów ukrytych od 1 do 10 dokonaliśmy 5 procesów uczenia za pomocą algorytmu BFGS z wykorzystaniem rekurencji. W tym celu wykorzystaliśmy skrypt $modelowanie.m$. Najmniejszy uzyskany błąd uczenia wraz ze skojarzonym z nim błędem weryfikacji przedstawiony został w tabeli poniżej. Najmniejszy błąd dla obydwu zbiorów występuje dla 9 neuronów. Ostatecznie jednak zdecydowaliśmy się na używanie sieci z pięcioma neuronami ukrytymi. Powodem tego jest mała poprawa w stosunku do większych ilości neuronów oraz chęć zmniejszenia nakładu obliczeń. Dodatkowo sieci o zbyt dużej ilości neuronów ukrytych mają tendencję do przetrenowywania się, w wyniku którego sieć przystosowuje się nie tyle do procesu co do samych danych uczących.
 		
 		\begin{table}[h!]
 			\centering
@@ -41,8 +41,7 @@
 		\newpage
 	\section{Model z algorytmu BFGS}
 		\label{sec:bfgs}
-		Eoe = 0.0787
-		Earx = 0.0212
+		Na wykresie \ref{fig:bfgs_oe_p} przedstawione zostały błędy predykatorów ARX i OE dla kolejnych iteracji uczenia modelu. Zgodnie z ustaleniami z poprzednich punktów zastosowane zostały następujące parametry: $tau = 3$, $neurony$ $ukryte = 5$. Końcowe błędy dla obydwu predykatorów wynosiły odpowiednio: $Eoe = 0.0787$ i $Earx = 0.0212$. Jak widać błędy te są dosyć małe jak na 2000 próbek co oznacza, że sieć dobrze nauczyła się modelu.
 		
 		\begin{figure}[h!]
 			\centering
@@ -54,6 +53,7 @@
 		\newpage
 	\section{Symulacja modelu z algorytmu BFGS}
 		\label{sec:bfgs_sym}
+		Model z poprzedniego punktu został zasymulowany w trybie rekurencyjnym dla uczącego oraz weryfikującego zboru danych.
 		Eucz = 0.0787
 		Ewer = 0.2172
 		
