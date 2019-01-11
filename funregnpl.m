@@ -27,7 +27,7 @@ global N Nu lambda w1 w10 w2 w20 yz y u du ddmc k delta na nb tau;
         end
     end
     
-    K = (M'*M + lambda*ones(Nu,Nu))^-1*M';
+    K = (M'*M + lambda*eye(Nu,Nu))^-1*M';
     
     for p = 1:N
         wesn = [u(min(k-3+p,k-1)) u(min(k-4+p,k-1)) y(k-1+p) y(k-2+p)]';

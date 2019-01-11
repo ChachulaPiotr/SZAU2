@@ -11,7 +11,7 @@ reg = 0; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
 
 % predykcja
 N = 10;
-Nu = 2;
+Nu = 9;
 lambda = 1;
 
 % NPL
@@ -48,7 +48,7 @@ if reg == 1
         end
     end
     
-    K = (M'*M + lambda*ones(Nu,Nu))^-1*M';
+    K = ((M'*M + lambda*eye(Nu,Nu))^-1)*M';
 end
 
 % PID
@@ -86,7 +86,7 @@ end
 e = zeros(n,1);
 
 for k=n0:n
-    k
+    %k
     x1(k) = -alpha_1*x1(k-1)+x2(k-1)+beta_1*g_1(u(k-3));
     x2(k) = -alpha_2*x1(k-1)+beta_2*g_1(u(k-3));
     y(k)= g_2(x1(k));
