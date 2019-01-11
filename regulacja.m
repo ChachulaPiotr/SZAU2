@@ -1,5 +1,5 @@
 clear variables
-close all
+%close all
 global N Nu lambda w1 w10 w2 w20 yz y u du ddmc k K b a delta na nb tau;
 tau = 3;
 nb = 4;
@@ -7,11 +7,11 @@ na = 2;
 S = max(na,nb) + 1;
 model;
 
-reg = 0; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
+reg = 2; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
 
 % predykcja
 N = 10;
-Nu = 9;
+Nu = 1;
 lambda = 1;
 
 % NPL
@@ -53,9 +53,16 @@ end
 
 % PID
 if reg == 2
-    Kp = 1;
-    Ti = 10;
-    Td = 0.1;
+%     Kp = 1;
+%     Ti = 10;
+%     Td = 0.1;
+    Tu = 13;
+    Kp = 4*0.6;
+    Ti = Tu/2;
+    Td = Tu/8;
+%     Kp = 4;
+%     Ti = 10e10;
+%     Td = 0.0;
     T = 1;
     r0 = Kp*(1+T/2/Ti+Td/T);
     r1 = Kp*(T/2/Ti - 2*Td/T - 1);
@@ -123,15 +130,17 @@ for k=n0:n
     end
     
 end
-
-figure
-subplot(4,1,1)
+E = (yz-y(1:n))'*(yz-y(1:n));
+%figure
+subplot(2,1,1)
 plot(u(1:n))
-subplot(4,1,2)
-plot(x1)
-subplot(4,1,3)
-plot(x2)
-subplot(4,1,4)
+xlabel('k')
+ylabel('u(k)')
+subplot(2,1,2)
 plot(y(1:n))
+xlabel('k')
+ylabel('y(k)')
 hold on
 plot(yz)
+title('E ='+string(E));
+legend('y','yzad')
