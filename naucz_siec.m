@@ -23,12 +23,20 @@ subplot(2,1,2)
 hold on
 plot(y_wer)
 plot(y_mod)
+title('Dane ucz¹ce')
+legend('dane', 'model')
+xlabel('krok')
+ylabel('y(k)')
 Ewer = (y_wer(S:end)-y_mod(S:end))'*(y_wer(S:end)-y_mod(S:end))
 y_mod = siec(x_ucz,y_ucz,w10,w20,w1,w2);
 subplot(2,1,1)
 hold on
 plot(y_ucz)
 plot(y_mod)
+title('Dane weryfikuj¹ce')
+legend('dane', 'model')
+xlabel('krok')
+ylabel('y(k)')
 Eucz = (y_ucz(S:end)-y_mod(S:end))'*(y_ucz(S:end)-y_mod(S:end))
 
 uczenie

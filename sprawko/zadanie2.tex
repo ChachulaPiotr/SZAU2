@@ -38,20 +38,80 @@
 		\label{tab:neurony}
 		\end{table}
 		
+		\newpage
 	\section{Model z algorytmu BFGS}
 		\label{sec:bfgs}
+		Eoe = 0.0787
+		Earx = 0.0212
 		
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=\linewidth]{img/BFGS_OE_p.eps}
+			\caption{Zmiany błędów predykatora ARX i OE dla kolejnych iteracji uczenia modelu algorytmem BFGS z użyciem rekurencji}
+			\label{fig:bfgs_oe_p}
+		\end{figure}
+		
+		\newpage
 	\section{Symulacja modelu z algorytmu BFGS}
 		\label{sec:bfgs_sym}
+		Eucz = 0.0787
+		Ewer = 0.2172
 		
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=\linewidth]{img/BFGS_OE_d.eps}
+			\caption{Symulacja modelu uczonego algorytmem BFGS z rekurencją na danych uczących i weryfikujących}
+			\label{fig:bfgs_oe_d}
+		\end{figure}
+		
+		\newpage
 	\section{Model z algorytmu najszybszego spadku}
 		\label{sec:naj_sp}
+		Eoe = 25.1864
+		Earx = 1.7730
 		
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=\linewidth]{img/NS_OE_p.eps}
+			\caption{Zmiany błędów predykatora ARX i OE dla kolejnych iteracji uczenia modelu algorytmem najszybszego spadku z użyciem rekurencji}
+			\label{fig:ns_oe_p}
+		\end{figure}
+		
+		\newpage
 	\section{Model z algorytmu BFGS z uczeniem bez rekurencji}
 		\label{sec:bfgs_arx}
+		Eoe = 0.0925
+		Earx = 0.0237
 		
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=\linewidth]{img/BFGS_ARX_p.eps}
+			\caption{Zmiany błędów predykatora ARX i OE dla kolejnych iteracji uczenia modelu algorytmem BFGS bez użycia rekurencji}
+			\label{fig:bfgs_arx_p}
+		\end{figure}
+		
+		\newpage
 	\section{Symulacja modelu z algorytmu BFGS z uczeniem bez rekurencji}
 		\label{sec:bfgs_arx_sym}
+		Eucz = 0.0925
+		Ewer = 0.3542
 		
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=\linewidth]{img/BFGS_ARX_d.eps}
+			\caption{Symulacja modelu uczonego algorytmem BFGS bez rekurencji na danych uczących i weryfikujących}
+			\label{fig:bfgs_arx_d}
+		\end{figure}
+		
+		\newpage
 	\section{Model metodą najmniejszych kwadratów}
 		\label{sec:mnk}
+		Ewer = 294.6949
+		Eucz = 299.7408
+		
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=\linewidth]{img/mnk.eps}
+			\caption{Symulacja modelu wykonanego za pomocą metody najmniejszych kwadratów}
+			\label{fig:mnk}
+		\end{figure}
