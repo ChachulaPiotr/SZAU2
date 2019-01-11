@@ -1,4 +1,3 @@
-model
 n = 10;
 u = zeros(n,1);
 u(5:n) = 1;
@@ -10,6 +9,7 @@ for k = 5:n
     x_2(k) = -alpha_2*x_1(k-1)+beta_2*g_1(u(k-3));
     y(k) = g_2(x_1(k));
 end
+figure
 plot(y,'o');
 hold on;
 stairs(u);

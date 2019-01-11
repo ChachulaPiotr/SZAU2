@@ -28,7 +28,6 @@ for i = 1:10
         if (Ewer < bestEwer(i))
             bestEwer(i)=Ewer;
             bestEucz(i)=Eucz;
-            save(sprintf('bestM%d',i), 'w1', 'w10', 'w2', 'w20', 'Ewer', 'Eucz')
         end
     end
     fprintf(osiagi,"%d\t\t\t\t%d\t%d\n",i,bestEucz(i),bestEwer(i));
