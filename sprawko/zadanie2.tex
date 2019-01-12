@@ -56,6 +56,20 @@
 		Model z poprzedniego punktu został zasymulowany w trybie rekurencyjnym dla uczącego oraz weryfikującego zboru danych.
 		Eucz = 0.0787
 		Ewer = 0.2172
+		Błedy otrzymywane były ze wzoru
+		\begin{equation}
+		\begin{tabular}{l}
+		$E = (y(S:end)-y^M(S:end))'*(y(S:end)-y^M(S:end))$
+		\end{tabular}
+		\label{eq:error}
+		\end{equation}
+		gdzie $S = max(n_A,n_B)+1$, oraz $n_A$ i $n_B$ są współczynniki modelu opisanego wzorem
+		\begin{equation}
+		\begin{tabular}{l}
+		$\hat{y}(k)=f(u(k-\tau),...,u(k-n_B),y(k-1),...,y(k-n_A))$
+		\end{tabular}
+		\label{eq:model_wzor}
+		\end{equation}
 		
 		\begin{figure}[h!]
 			\centering
@@ -67,6 +81,7 @@
 		\newpage
 	\section{Model z algorytmu najszybszego spadku}
 		\label{sec:naj_sp}
+		Jak widać po poniższych wartościach błędów uczenia oraz z wykresu \ref{fig:ns_oe_p} algorytm najszybszego spadku nie radzi sobie najlepiej co skutkuje dużą niedokładnością modelu.
 		Eoe = 25.1864
 		Earx = 1.7730
 		
@@ -106,8 +121,26 @@
 		\newpage
 	\section{Model metodą najmniejszych kwadratów}
 		\label{sec:mnk}
+		Uczenie modelu metodą najmniejszych kwadratów relizowane jest następującym wzorem
+		\begin{equation}
+		\begin{tabular}{l}
+		$w = $ $\begin{bmatrix}b_3\\b_4\\a_1\\a_2\end{bmatrix}$ $=M\backslash y_{ucz}(5:end)$
+		\end{tabular}
+		\label{eq:mnk}
+		\end{equation}
+		gdzie
+		\begin{equation}
+		\begin{tabular}{l}
+		$M = $ $\begin{bmatrix}x_{ucz}(2)&x_{ucz}(1)&y_{ucz}(4)&y_{ucz}(3)\\.&.&.&.\\.&.&.&.\\.&.&.&.\\x_{ucz}(n-\tau)&x_{ucz}(n-\tau -1)&y_{ucz}(n-1)&y_{ucz}(n-2)\end{bmatrix}$
+		\end{tabular}
+		\label{eq:M_mnk}
+		\end{equation}
+		Oraz $n =$ liczba próbek.
+		Otrzymane błędy były równe:\\\\
 		Ewer = 294.6949
 		Eucz = 299.7408
+		Jak widać jakość tego modelu jest bardzo zła i błędy są wieksze, niż w przypadku modelu uczonego algorytmem najszybszego spadku.
+		Przebiegi przedstawiające działanie modelu nad danych uczących pokazane są poniżej.
 		
 		\begin{figure}[h!]
 			\centering
