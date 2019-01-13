@@ -5,7 +5,7 @@ tau = 3;
 nb = 4;
 na = 2;
 S = max(na,nb) + 1;
-model;
+modelBFGS_OE;
 
 reg = 3; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
 
@@ -90,7 +90,7 @@ end
 e = zeros(n,1);
 
 for k=n0:n
-    %k
+    k
     x1(k) = -alpha_1*x1(k-1)+x2(k-1)+beta_1*g_1(u(k-3));
     x2(k) = -alpha_2*x1(k-1)+beta_2*g_1(u(k-3));
     y(k)= g_2(x1(k));

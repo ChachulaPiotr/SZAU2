@@ -3,10 +3,10 @@
 	
 	\section{Implementacja NPL}
 		\label{sec:NPL}
-		NPL jest algorytmem regulacji predykcyjnym z Nieliniową predykcją i z linearyzacją oznacza to że do wyznaczania trajektori swobodnej (która zależy tylko od przeszłych sterowań) używamy nieliniowego modelu neuronowego:
+		NPL jest algorytmem regulacji predykcyjnym z nieliniową predykcją i z linearyzacją oznacza to że do wyznaczania trajektori swobodnej (która zależy tylko od przeszłych sterowań) używamy nieliniowego modelu neuronowego:
 		\begin{equation}
 		\begin{tabular}{l}
-		$y^0(k+1)=w20+w2*tanh(w10+w1*x(k))+dk$
+		$y^0(k+p|k)=w20+w2*tanh(w10+w1*x(k+p))+dk$
 		\end{tabular}
 		\label{eq:NPL_y0}
 		\end{equation}
@@ -19,79 +19,95 @@
 		\end{equation}
 		\begin{equation}
 		\begin{tabular}{l}
-		$x(k)=$ $\begin{bmatrix}u(min(k-\tau+n,k-1))\\u(min(k-\tau-1+n,k-1\\y(k-1+n)\\y(k-2+n)))\end{bmatrix}$
+		$x(k)=$ $\begin{bmatrix}u(min(k-\tau+p,k-1))\\u(min(k-\tau-1+p,k-1))\\y(k-1+p)\\y(k-2+p)\end{bmatrix}$
 		\end{tabular}
 		\label{eq:wesn}
 		\end{equation}
-		$n=$ ilość chwil w przyszłóść.
-		Warto dodać, że we wzore \ref{eq:wesn} dla chwil czasu dalszych od $k$ zakłada się że $y(p>k)=y^0(p|k)$.\\
-		Aby móc rozwiązać algorytm analitycznie dokonuje się linearyzacji predykcji wyjścia modelu w przyszłości. Współczynniki $b_3$,$b_4$,$a_1$,$a_2$ we wzorze
+		$p=$ ilość chwil w przyszłóść.
+		Warto dodać, że we wzore \ref{eq:wesn} dla chwil czasu dalszych od $k$ zakłada się że $y(k+p)=y^0(k+p|k)$.\\
+		Aby móc rozwiązać algorytm analitycznie dokonuje się linearyzacji wyjścia modelu. Współczynniki $b_3$,$b_4$,$a_1$,$a_2$ we wzorze
 		\begin{equation}
 		\begin{tabular}{l}
-		$y(k)=b_3u(k-\tau=k-3)+b_4(k-\tau-1=k-4)-a_1y(k-1)-a_2y(k-2)$
+		$y(k)=b_3u(k-\tau)+b_4(k-\tau-1)-a_1y(k-1)-a_2y(k-2)$
 		\end{tabular}
 		\label{eq:NPL_wyjscielinear}
 		\end{equation}
 		otrzymuje się poprzez obliczenie pochodnej cząstkowej po odpowiednim wejściu modelu neuronowego. Mając obliczone współczynniki można użyć ich do wyznaczenia odpowiedzi skokowej ze wzoru
 		\begin{equation}
 		\begin{tabular}{l}
-		$s_j(k)=\sum\limits_{i=1}^{min(j,n_B)}b_i(k)-\sum\limits_{i=1}^{min(j-1,n_A)s_{j-i}(k)}$
+		$s_j(k)=\sum\limits_{i=1}^{min(j,n_B)}b_i(k)-\sum\limits_{i=1}^{min(j-1,n_A)}s_{j-i}(k)$
 		\end{tabular}
 		\label{eq:NPL_odpowiedzskok}
 		\end{equation}
-		których można użyć do wypełnienia macierzy dynamicznej.
-		Na koniec można obliczyć optymalne przyszłe sterowania(przy zadanych horyzntach i współczynniku kary)
+		których można użyć do wypełnienia macierzy dynamicznej M.
+		
+		\begin{equation}
+		\boldsymbol{M}=\left[
+		\begin{array}
+		{cccc}
+		s_{1} & 0 & \ldots & 0\\
+		s_{2} & s_{1} & \ldots & 0\\
+		\vdots & \vdots & \ddots & \vdots\\
+		s_{N} & s_{N-1} & \ldots &  s_{N-N_{\mathrm{u}}+1}
+		\end{array}
+		\right]_{\mathrm{NxN_u}}
+		\label{Mm}
+		\end{equation}
+		
+		Na koniec można obliczyć optymalne przyszłe sterowania(przy zadanych horyzontach predykcji N i sterowania Nu oraz współczynniku kary $\lambda$). 
 		\begin{equation}
 		\begin{tabular}{l}
-		$du=K*(y_{zad}-y^0)$
+		$dU=K*(Y_{zad}(k)-Y^0)$
 		\end{tabular}
 		\label{eq:NPL_du}
 		\end{equation}
-		gdzie
+		gdzie $Y_{zad}(k)$ to wektor długości N zawierający aktualną wartość zadaną, $Y^0$ to wektor N przyszłych, predykowanych wartości wyjścia oraz
 		\begin{equation}
 		\begin{tabular}{l}
 		$K=(M'*M+\lambda I)^{-1}*M'$
 		\end{tabular}
-		\label{eq:NPL_du}
+		\label{eq:NPL_K}
 		\end{equation}
 	
 		
 		
 	\section{Strojenie NPL}
 		\label{sec:stroj_NPL}
-		Strojenie regulatora NPL rozpoczęliśmi od parametrów $N=10$, $N_u=2$ oraz $\lambda=1$. Przebieg dla tych wartości zaprezentowany jest ponieżej (rys. \ref{fig:NPL0}).
+		Regulator NPL został nastrojony z użyciem sieci neuronowej wytrenowanej algorytmem BFGS z użyciem rekurencji opisanej w sekcji \ref{sec:bfgs}. Strojenie regulatora NPL rozpoczęliśmy od parametrów $N=10$, $N_u=2$ oraz $\lambda=1$. Przebieg dla tych wartości zaprezentowany jest poniżej (rys. \ref{fig:NPL0}). Jak widać już od samego początku przebieg regulacji nie jest zły. Błąd o wartości 75.2963 na 600 próbkach nie jest idealny, ale akceptowalny. Mimo tego działanie regulatora na pewno można poprawić. Wyjście ulega nieznacznym oscylacjom, a sterowanie jest dosyć gwałtowne.
 		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=\linewidth]{img/strojenieNPL_N_10_Nu_2_lam_1.eps}
+			\includegraphics[width=0.7\linewidth]{img/strojenieNPL_N_10_Nu_2_lam_1.eps}
 			\caption{Działanie regulatora NPL z nastawami N=10, Nu=2, $\lambda$=1}
 			\label{fig:NPL0}
 		\end{figure}
 		
-		Postanowiliśmy zwiększać horyzont predykcji do czasu zmniejszania się wartości błędu i ogólnej jakości sterowania, najlepszą jakość udało nam się uzyskać dla $N=20$ (rys. \ref{fig:NPL1}).
+		Postanowiliśmy zwiększać horyzont predykcji i udało nam się uzyskać lepsze wyniki dla $N=20$ (rys. \ref{fig:NPL1}). Jak widać oscylacje na wyjściu zniknęły, a sterowanie stało się mniej gwałtowne. Spadł też błąd regulacji, do wartości E = 74.8182.
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=\linewidth]{img/NPLN20.eps}
+			\includegraphics[width=0.7\linewidth]{img/NPLN20.eps}
 			\caption{Działanie regulatora NPL z nastawami N=20, Nu=2, $\lambda$=1}
 			\label{fig:NPL1}
 		\end{figure}
 		
-		Następnie postanowiliśmy dobrać horyzont sterowania. Niestety zarówno przy zwiększaniu jak i zmniejszaniu horyzunto jakość regulacji pogarszała się, co można zaobserwować na wykresach \ref{fig:NPL2} i \ref{fig:NPL3}.
+		\newpage
+		Następnie postanowiliśmy dobrać horyzont sterowania. Niestety zarówno przy zwiększaniu jak i zmniejszaniu horyzunto jakość regulacji pogarszała się, co można zaobserwować na wykresach \ref{fig:NPL2} i \ref{fig:NPL3}. Dla Nu równego 1 błąd regulacji co prawda spadł, a wykres wyjścia wygląda lepiej, ale następują niekontrolowane, ostre skoki sterowania. Dla Nu równego 3 zarówno przebiegi wyjścia jak i wejścia pogarszają się.
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=\linewidth]{img/NPLNu1.eps}
+			\includegraphics[width=0.7\linewidth]{img/NPLNu1.eps}
 			\caption{Działanie regulatora NPL z nastawami N=20, Nu=1, $\lambda$=1}
 			\label{fig:NPL2}
 		\end{figure}
 		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=\linewidth]{img/NPLNu3.eps}
+			\includegraphics[width=0.7\linewidth]{img/NPLNu3.eps}
 			\caption{Działanie regulatora NPL z nastawami N=20, Nu=3, $\lambda$=1}
 			\label{fig:NPL3}
 		\end{figure}
 		
-		Mając dobrane $N$ oraz $N_u$ pozostało zbadać wpływ współczynnika $\lambda$. Po zwiększeniu o jeden dało się zaobserwować spadek oscylacji, wygładzenie sterowania ale spadek przeregulowania, niestety jednak wartość błędu liczonego ze wzoru \ref{eq:error} wzrosła, dlatego postanowiliśmy zostawić $\lambda$ przy obecnej wartości (rys. \ref{fig:NPL4}).
+		\newpage
+		Mając dobrane $N$ oraz $N_u$ pozostało zbadać wpływ współczynnika $\lambda$. Po zwiększeniu o jeden dało się zaobserwować spadek oscylacji, wygładzenie sterowania i spadek przeregulowania. Z drugiej strony wartość błędu wzrosła, ponieważ złagodzenie sterowania spowodowało nieznaczne spowolnienie regulacji. Postanowiliśmy zostawić $\lambda$ przy obecnej wartości 2, dla której przebieg przedstawiliśmy an wykresie \ref{fig:NPL4}. Dalsze zwiększanie tego parametru, choć zmniejszałoby skoki sterowania mogłoby końcowo doprowadzić do pogorszenia regulacji, ze względu na jej spowolnienie.
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[width=\linewidth]{img/NPLlam2.eps}
@@ -99,18 +115,18 @@
 			\label{fig:NPL4}
 		\end{figure}
 		
-		
+	\newpage	
 	\section{GPC}
 		\label{sec:GPC}
 		Algorytm regulacji GPC, różni się tym od NPL, że na całym horyzocnie predykcji korzysta się z liniowego modelu wyznaczonego metodą najmniejszych kwadratów. Jak można było zauważyć z rys. \ref{fig:mnk} taki model nie gwarantuje najlepszego odwzorowania obiektu, przez co jak można się domyślać jakość regulacji również może być gorsza.
 		Do wyznaczania sterowania w wersji analitycznej wyznacza predykcje wyjscia modelu $N$ chwil do przodu ze wzoru
 		\begin{equation}
 		\begin{tabular}{l}
-		$y^0(k+n)=b_3u(min(k-3+n,k-1))+b_4u(min(k-4+n),k-1)-a_1y(k-1+n)-a_2y(k-2+n)$
+		$y^0(k+p|k)=b_3u(min(k-3+p,k-1))+b_4u(min(k-4+p),k-1)-a_1y(k-1+p)-a_2y(k-2+p)$
 		\end{tabular}
 		\label{eq:GPC_y0}
 		\end{equation}
-		oraz analogicznie do wzoru \ref{eq:NPL_y0} $y(p>k)=y^0(p|k)$. Macierz dynamiczna jest stała i wyznaczana przy użyciu odpowiedzi skokowej ze wzoru \ref{eq:NPL_odpowiedzskok}. Na wykresie poniżej można zauważyć, że jakość regulacji w istocie pozostawia wiele do życzenia (rys \ref{fig:GPC}).
+		oraz analogicznie do wzoru \ref{eq:NPL_y0} $y(k+p)=y^0(k+p|k)$. Parametry $a_i$ oraz $b_i$ otrzymywane są z metody najmniejszych kwadratów. Macierz dynamiczna jest stała i wyznaczana przy użyciu odpowiedzi skokowej ze wzoru \ref{eq:NPL_odpowiedzskok}. Na wykresie poniżej można zauważyć, że jakość regulacji w istocie pozostawia wiele do życzenia (rys \ref{fig:GPC}).
 		
 		\begin{figure}[h!]
 			\centering
@@ -119,11 +135,11 @@
 			\label{fig:GPC}
 		\end{figure}
 	
-		Należy wziąć pod uwagę, że przez silną nieliniowość obiektu, liniowy algorytm GPC może generować duże sterowania, które po nałożeniu ograniczeń wprowadzą obiekt w stałe oscylacje. Można temu zapobiec poprzez zwiększenie współczynnika $\lambda$ o parę rzędów wielkości.
+		\newpage
+		Należy wziąć pod uwagę, że przez silną nieliniowość obiektu, liniowy algorytm GPC może generować duże sterowania, które po nałożeniu ograniczeń wprowadzą obiekt w stałe oscylacje. Można temu zapobiec poprzez zwiększenie współczynnika $\lambda$ o parę rzędów wielkości. Na rys. \ref{fig:GPC100} można zobaczyć, że jakość regulacji polepszyła się, lecz mimo to sterowanie wciąż jest zbyt ostre, a czas regulacji wolniejszy niż w przypadku NPL. W dodatku zarówno dla sterowania jak i wyjścia występują widoczne oscylacje.
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[width=\linewidth]{img/GPC100.eps}
 			\caption{Działanie regulatora GPC z nastawami N=20, Nu=2, $\lambda$=100}
 			\label{fig:GPC100}
 		\end{figure}
-		Na rys. \ref{fig:GPC100} można zobaczyć, że jakość regulacji polepszyła się, lecz mimo to sterowanie wciąż jest zbyt ostre, a czas regulacji wolniejszy niż w przypadku NPL.

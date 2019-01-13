@@ -11,8 +11,9 @@
 			\label{fig:PID0}
 		\end{figure}
 		
+		\newpage
 		Następnie, po podstawieniu zmierzonych wartości (okres drgań $T_u=13$) otrzymaliśmy przebieg przedstawiony na rys. \ref{fig:PID1}.
-		Widać, że regulator próbuje naśladować przebieg wartości zadanej, i robi to nie najgorzej (mimo bardzo ostrego sterowania), lecz dla niektórych punktów pracy pojawiają się niegasnące oscylacje.
+		Widać, że regulator próbuje naśladować przebieg wartości zadanej, i robi to nie najgorzej (mimo bardzo ostrego sterowania), lecz dla niektórych punktów pracy pojawiają się niegasnące oscylacje. Nastrojony w ten sposób regulator wydaje się dobrze radzić sobie w bliskości granicy przedziału sterowania, a gorzej będąc w jego centrum.
 		
 		\begin{figure}[h!]
 			\centering
@@ -21,7 +22,7 @@
 			\label{fig:PID1}
 		\end{figure}
 		
-		
+		\newpage
 	\section{NO}
 		\label{sec:NO}
 		Algorytm NO, tym różni się od algorytmu NPL, że do wyznaczania predykcji wyjścia stosuje się model nieliniowy. Oznacza to, że nie można wyznaczyć przyszłych sterowań analitycznie. Posługując się wskaznikiem jakości
@@ -46,11 +47,11 @@
 		\end{tabular}
 		\label{eq:NO_wesn}
 		\end{equation}
-		We wzorze tym, podobnie jak w równaniu \ref{eq:NPL_y0} i \ref{eq:GPC_y0} dla $y(n>k)=\hat{y}(n|k)$. Dodatkowo dochodzi jeszcze $u(n \geqslant k+N_u)=u(k+N_u-1)$. Mojąc wyznaczone wszystkie wartości można obliczyć zadanie optymalizacji. Wyniki działania algorytmu NO przedstawione są na rysunku \ref{fig:NO}.
+		We wzorze tym, podobnie jak w równaniu \ref{eq:NPL_y0} i \ref{eq:GPC_y0} dla $y(k+p|k)=\hat{y}(k+p|k)$. Dodatkowo, ponieważ przewidujemy jedynie przez cały horyzont sterowania, zakłada się, że sterowanie dla $p>Nu-1$ przyjmuje wartość $u(k+p)=u(k+N_u-1)$. Mając wyznaczone wszystkie wartości można obliczyć zadanie optymalizacji. W tym celu wykorzystaliśmy obecny w Matlabie algorytm $fmincon$, a optymalizowaną przez nas zmienną było Nu przyszłych sterowań licząc z aktualnym.
+		Regulator NO był testowany z użyciem sieci neuronowej wytrenowanej algorytmem BFGS z użyciem rekurencji opisanej w sekcji \ref{sec:bfgs}. Wyniki działania algorytmu NO przedstawione są na rysunku \ref{fig:NO}. Jak widać zarówno wyjście obiektu jak i sterowania wyglądają świetnie. Nie występują oscylacje ani przesterowania, a sterowanie jest dosyć łagodne. Niestety dużą wadą algorytmu NO jest, fakt że w każdym kroku algorytmu należy rozwiązać zadanie nieliniowej optymalizacji, co w przypadku obiektów o dłuższych horyzontach predykcji potrafi prowadzić do bardzo długiego czasu wyznaczania sterowań.
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=\linewidth]{img/NO.eps}
+			\includegraphics[width=0.8\linewidth]{img/NO.eps}
 			\caption{Działanie regulatora NO z nastawami N=20, Nu=2, $\lambda$=2}
 			\label{fig:NO}
 		\end{figure}
-		Jak widać zarówno wyjscie obiektu jak i sterowania wyglądają swiętnie. Niestety dużą wadą algorytmu NO jest, fakt że w każdym kroku algorytmu należy rozwiązać zadanie nieliniowej optymalizacji, co w przypadku obiektów o dłuższych horyzontach predykcji potrafi prowadzić do bardzo długiego czasu wyznaczania sterowań.

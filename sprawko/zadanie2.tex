@@ -53,10 +53,7 @@
 		\newpage
 	\section{Symulacja modelu z algorytmu BFGS}
 		\label{sec:bfgs_sym}
-		Model z poprzedniego punktu został zasymulowany w trybie rekurencyjnym dla uczącego oraz weryfikującego zboru danych.
-		Eucz = 0.0787
-		Ewer = 0.2172
-		Błedy otrzymywane były ze wzoru
+		Model z poprzedniego punktu został zasymulowany w trybie rekurencyjnym dla uczącego oraz weryfikującego zboru danych. Błędy dla obydwu zbiorów danych wyniosły odpowiednio: $Eucz = 0.0787$ oraz $Ewer = 0.2172$. Błedy otrzymywane były ze wzoru:
 		\begin{equation}
 		\begin{tabular}{l}
 		$E = (y(S:end)-y^M(S:end))'*(y(S:end)-y^M(S:end))$
@@ -81,9 +78,7 @@
 		\newpage
 	\section{Model z algorytmu najszybszego spadku}
 		\label{sec:naj_sp}
-		Jak widać po poniższych wartościach błędów uczenia oraz z wykresu \ref{fig:ns_oe_p} algorytm najszybszego spadku nie radzi sobie najlepiej co skutkuje dużą niedokładnością modelu.
-		Eoe = 25.1864
-		Earx = 1.7730
+		Jak widać po poniższych wartościach błędów uczenia oraz z wykresu \ref{fig:ns_oe_p} algorytm najszybszego spadku nie radzi sobie najlepiej z uczeniem sieci co skutkuje dużą niedokładnością modelu. Końcowe błędy dla obydwu predykatorów wyniosły $Eoe = 25.1864$ oraz $Earx = 1.7730$, co w obydwu przypadkach wynosi więcej niż przy uczeniu sieci metodą BFGS.
 		
 		\begin{figure}[h!]
 			\centering
@@ -121,7 +116,7 @@
 		\newpage
 	\section{Model metodą najmniejszych kwadratów}
 		\label{sec:mnk}
-		Uczenie modelu metodą najmniejszych kwadratów relizowane jest następującym wzorem
+		Uczenie modelu metodą najmniejszych kwadratów relizowane jest za pomocą obecnej w Matlabie operacji lewego dzielenia:
 		\begin{equation}
 		\begin{tabular}{l}
 		$w = $ $\begin{bmatrix}b_3\\b_4\\a_1\\a_2\end{bmatrix}$ $=M\backslash y_{ucz}(5:end)$
@@ -135,12 +130,9 @@
 		\end{tabular}
 		\label{eq:M_mnk}
 		\end{equation}
-		Oraz $n =$ liczba próbek.
-		Otrzymane błędy były równe:\\\\
-		Ewer = 294.6949
-		Eucz = 299.7408
-		Jak widać jakość tego modelu jest bardzo zła i błędy są wieksze, niż w przypadku modelu uczonego algorytmem najszybszego spadku.
-		Przebiegi przedstawiające działanie modelu nad danych uczących pokazane są poniżej.
+		oraz $n =$ liczba próbek.
+		
+		Otrzymane błędy były równe: $Ewer = 294.6949$ oraz $Eucz = 299.7408$. Jak widać jakość tego modelu jest bardzo zła i błędy są większe, niż w przypadku modelu uczonego algorytmem BFGS lub najszybszego spadku. Przebiegi przedstawiające działanie modelu dla danych uczących i weryfikujących pokazane są poniżej. Do wyznaczenia modelu oraz wyrysowania wykresu użyty został skrypt $mnk.m$.
 		
 		\begin{figure}[h!]
 			\centering
