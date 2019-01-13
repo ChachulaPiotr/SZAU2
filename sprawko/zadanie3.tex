@@ -24,7 +24,7 @@
 		\label{eq:wesn}
 		\end{equation}
 		$n=$ ilość chwil w przyszłóść.
-		Warto dodać, że we wzore \ref{eq:wesn} dla chwil czasu dalszych od $k$ zakłada się że $y(p>k)=y^0(p)$.\\
+		Warto dodać, że we wzore \ref{eq:wesn} dla chwil czasu dalszych od $k$ zakłada się że $y(p>k)=y^0(p|k)$.\\
 		Aby móc rozwiązać algorytm analitycznie dokonuje się linearyzacji predykcji wyjścia modelu w przyszłości. Współczynniki $b_3$,$b_4$,$a_1$,$a_2$ we wzorze
 		\begin{equation}
 		\begin{tabular}{l}
@@ -108,9 +108,9 @@
 		\begin{tabular}{l}
 		$y^0(k+n)=b_3u(min(k-3+n,k-1))+b_4u(min(k-4+n),k-1)-a_1y(k-1+n)-a_2y(k-2+n)$
 		\end{tabular}
-		\label{eq:NPL_odpowiedzskok}
+		\label{eq:GPC_y0}
 		\end{equation}
-		oraz analogicznie do wzoru \ref{eq:NPL_y0} $y(p>k)=y^0(p)$. Macierz dynamiczna jest stała i wyznaczana przy użyciu odpowiedzi skokowej ze wzoru \ref{eq:NPL_odpowiedzskok}. Na wykresie poniżej można zauważyć, że jakość regulacji w istocie pozostawia wiele do życzenia (rys \ref{fig:GPC}).
+		oraz analogicznie do wzoru \ref{eq:NPL_y0} $y(p>k)=y^0(p|k)$. Macierz dynamiczna jest stała i wyznaczana przy użyciu odpowiedzi skokowej ze wzoru \ref{eq:NPL_odpowiedzskok}. Na wykresie poniżej można zauważyć, że jakość regulacji w istocie pozostawia wiele do życzenia (rys \ref{fig:GPC}).
 		
 		\begin{figure}[h!]
 			\centering
