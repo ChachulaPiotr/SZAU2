@@ -53,7 +53,7 @@
 		\newpage
 	\section{Symulacja modelu z algorytmu BFGS}
 		\label{sec:bfgs_sym}
-		Model z poprzedniego punktu został zasymulowany w trybie rekurencyjnym dla uczącego oraz weryfikującego zboru danych. Błędy dla obydwu zbiorów danych wyniosły odpowiednio: $Eucz = 0.0787$ oraz $Ewer = 0.2172$. Błedy otrzymywane były ze wzoru:
+		Model z poprzedniego punktu został zasymulowany w trybie rekurencyjnym dla uczącego oraz weryfikującego zbioru danych. Błędy dla obydwu zbiorów danych wyniosły odpowiednio: $Eucz = 0.0787$ oraz $Ewer = 0.2172$. Błedy otrzymywane były ze wzoru:
 		\begin{equation}
 		\begin{tabular}{l}
 		$E = (y(S:end)-y^M(S:end))'*(y(S:end)-y^M(S:end))$
@@ -90,8 +90,7 @@
 		\newpage
 	\section{Model z algorytmu BFGS z uczeniem bez rekurencji}
 		\label{sec:bfgs_arx}
-		Eoe = 0.0925
-		Earx = 0.0237
+		Na wykresie \ref{fig:bfgs_arx_p} można zobaczyć, że algorytm BFGS w wersji bez rekurencji radzi sobie niewiele gorzej niż algorytm BFGS w wersji z rekurencją. Po kilku próbach uczenia sieci udało się osiągnąć błędy uczenia o wartościach Eoe = 0.0925 i Earx = 0.0237, co nadal jest bardzo dobrym wynikiem.
 		
 		\begin{figure}[h!]
 			\centering
@@ -103,8 +102,7 @@
 		\newpage
 	\section{Symulacja modelu z algorytmu BFGS z uczeniem bez rekurencji}
 		\label{sec:bfgs_arx_sym}
-		Eucz = 0.0925
-		Ewer = 0.3542
+		Podobnie jak w przypadku modelu nauczonego algorytmem z rekurencją, model z poprzedniego punktu został zasymulowany w trybie rekurencyjnym dla uczącego oraz weryfikującego zbioru danych. Błędy dla obydwu zbiorów danych wyniosły odpowiednio: Eucz = 0.0925 oraz Ewer = 0.3542. Mimo niewielkiej różnicy model ten sprawuje się niestety gorzej niż w wersji z rekurencją, dlatego to na tamtym będziemy wykonywać następne zadania.
 		
 		\begin{figure}[h!]
 			\centering
