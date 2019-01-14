@@ -73,7 +73,7 @@
 		
 	\section{Strojenie NPL}
 		\label{sec:stroj_NPL}
-		Regulator NPL został nastrojony z użyciem sieci neuronowej wytrenowanej algorytmem BFGS z użyciem rekurencji opisanej w sekcji \ref{sec:bfgs}. Strojenie regulatora NPL rozpoczęliśmy od parametrów $N=15$, $N_u=2$ oraz $\lambda=1$. Przebieg dla tych wartości zaprezentowany jest poniżej (rys. \ref{fig:NPL0}). Jak widać już od samego początku przebieg regulacji nie jest zły, aczkolwiek sterowanie jest zdecydowania zbyt ostre. Błąd o wartości 74.554 na 600 próbkach nie jest idealny, ale akceptowalny.
+		Regulator NPL został nastrojony z użyciem sieci neuronowej wytrenowanej algorytmem BFGS z użyciem rekurencji opisanej w sekcji \ref{sec:bfgs}. Strojenie regulatora NPL rozpoczęliśmy od parametrów $N=15$, $N_u=2$ oraz $\lambda=1$. Przebieg dla tych wartości zaprezentowany jest poniżej (rys. \ref{fig:NPL0}). Jak widać już od samego początku przebieg regulacji nie jest zły, aczkolwiek skoki sterowania są zdecydowanie zbyt ostre. Błąd o wartości 74.554 na 600 próbkach nie jest idealny, ale akceptowalny.
 		
 		\begin{figure}[h!]
 			\centering
@@ -87,7 +87,7 @@
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[width=0.7\linewidth]{img/strojenieNPL_N_15_Nu_2_lam_4.eps}
-			\caption{Działanie regulatora NPL z nastawami N=15, Nu=2, $\lambda$=}
+			\caption{Działanie regulatora NPL z nastawami N=15, Nu=2, $\lambda$=4}
 			\label{fig:NPL1}
 		\end{figure}
 		
@@ -114,7 +114,7 @@
 		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=\linewidth]{img/strojenieNPL_N_19_Nu_3_lam_4.eps}
+			\includegraphics[width=0.7\linewidth]{img/strojenieNPL_N_19_Nu_3_lam_4.eps}
 			\caption{Działanie regulatora NPL z nastawami N=19, Nu=3, $\lambda$=4}
 			\label{fig:NPL4}
 		\end{figure}
