@@ -49,9 +49,10 @@
 		\end{equation}
 		We wzorze tym, podobnie jak w równaniu \ref{eq:NPL_y0} i \ref{eq:GPC_y0} dla $y(k+p|k)=\hat{y}(k+p|k)$. Dodatkowo, ponieważ przewidujemy jedynie przez cały horyzont sterowania, zakłada się, że sterowanie dla $p>Nu-1$ przyjmuje wartość $u(k+p)=u(k+N_u-1)$. Mając wyznaczone wszystkie wartości można obliczyć zadanie optymalizacji. W tym celu wykorzystaliśmy obecny w Matlabie algorytm $fmincon$, a optymalizowaną przez nas zmienną było Nu przyszłych sterowań licząc z aktualnym.
 		Regulator NO był testowany z użyciem sieci neuronowej wytrenowanej algorytmem BFGS z użyciem rekurencji opisanej w sekcji \ref{sec:bfgs}. Wyniki działania algorytmu NO przedstawione są na rysunku \ref{fig:NO}. Jak widać zarówno wyjście obiektu jak i sterowania wyglądają świetnie. Nie występują oscylacje ani przesterowania, a sterowanie jest dosyć łagodne. Niestety dużą wadą algorytmu NO jest, fakt że w każdym kroku algorytmu należy rozwiązać zadanie nieliniowej optymalizacji, co w przypadku obiektów o dłuższych horyzontach predykcji potrafi prowadzić do bardzo długiego czasu wyznaczania sterowań.
+		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=0.8\linewidth]{img/NO.eps}
-			\caption{Działanie regulatora NO z nastawami N=20, Nu=2, $\lambda$=2}
+			\includegraphics[width=0.8\linewidth]{img/strojenieNO_N_19_Nu_2_lam_4.eps}
+			\caption{Działanie regulatora NO z nastawami N=19, Nu=2, $\lambda$=4}
 			\label{fig:NO}
 		\end{figure}

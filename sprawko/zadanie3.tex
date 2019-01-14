@@ -73,45 +73,49 @@
 		
 	\section{Strojenie NPL}
 		\label{sec:stroj_NPL}
-		Regulator NPL został nastrojony z użyciem sieci neuronowej wytrenowanej algorytmem BFGS z użyciem rekurencji opisanej w sekcji \ref{sec:bfgs}. Strojenie regulatora NPL rozpoczęliśmy od parametrów $N=10$, $N_u=2$ oraz $\lambda=1$. Przebieg dla tych wartości zaprezentowany jest poniżej (rys. \ref{fig:NPL0}). Jak widać już od samego początku przebieg regulacji nie jest zły. Błąd o wartości 75.2963 na 600 próbkach nie jest idealny, ale akceptowalny. Mimo tego działanie regulatora na pewno można poprawić. Wyjście ulega nieznacznym oscylacjom, a sterowanie jest dosyć gwałtowne.
+		Regulator NPL został nastrojony z użyciem sieci neuronowej wytrenowanej algorytmem BFGS z użyciem rekurencji opisanej w sekcji \ref{sec:bfgs}. Strojenie regulatora NPL rozpoczęliśmy od parametrów $N=15$, $N_u=2$ oraz $\lambda=1$. Przebieg dla tych wartości zaprezentowany jest poniżej (rys. \ref{fig:NPL0}). Jak widać już od samego początku przebieg regulacji nie jest zły, aczkolwiek sterowanie jest zdecydowania zbyt ostre. Błąd o wartości 74.554 na 600 próbkach nie jest idealny, ale akceptowalny.
 		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=0.7\linewidth]{img/strojenieNPL_N_10_Nu_2_lam_1.eps}
-			\caption{Działanie regulatora NPL z nastawami N=10, Nu=2, $\lambda$=1}
+			\includegraphics[width=0.7\linewidth]{img/strojenieNPL_N_15_Nu_2_lam_1.eps}
+			\caption{Działanie regulatora NPL z nastawami N=15, Nu=2, $\lambda$=1}
 			\label{fig:NPL0}
 		\end{figure}
 		
-		Postanowiliśmy zwiększać horyzont predykcji i udało nam się uzyskać lepsze wyniki dla $N=20$ (rys. \ref{fig:NPL1}). Jak widać oscylacje na wyjściu zniknęły, a sterowanie stało się mniej gwałtowne. Spadł też błąd regulacji, do wartości E = 74.8182.
+		W celu zmniejszenia gwałtowności sterowania postanowiliśmy zwiększać wartość $\lambda$ do czasu od sterowanie złagodnieje. Należy oczywiśćie pamiętać, że im większy jest parametr $\lambda$, tym regulator będzie wolniejszy. Kompromis pomiędzy szybkością (błędem), a kształtem sygnału sterującego osiągneliśmy dla $\lambda=4$, błąd wynosił 75.8664. Przebieg zaprezentowany jest na rys. \ref{fig:NPL1}
+		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=0.7\linewidth]{img/NPLN20.eps}
-			\caption{Działanie regulatora NPL z nastawami N=20, Nu=2, $\lambda$=1}
+			\includegraphics[width=0.7\linewidth]{img/strojenieNPL_N_15_Nu_2_lam_4.eps}
+			\caption{Działanie regulatora NPL z nastawami N=15, Nu=2, $\lambda$=}
 			\label{fig:NPL1}
 		\end{figure}
 		
 		\newpage
-		Następnie postanowiliśmy dobrać horyzont sterowania. Niestety zarówno przy zwiększaniu jak i zmniejszaniu horyzunto jakość regulacji pogarszała się, co można zaobserwować na wykresach \ref{fig:NPL2} i \ref{fig:NPL3}. Dla Nu równego 1 błąd regulacji co prawda spadł, a wykres wyjścia wygląda lepiej, ale następują niekontrolowane, ostre skoki sterowania. Dla Nu równego 3 zarówno przebiegi wyjścia jak i wejścia pogarszają się.
-		\begin{figure}[h!]
-			\centering
-			\includegraphics[width=0.7\linewidth]{img/NPLNu1.eps}
-			\caption{Działanie regulatora NPL z nastawami N=20, Nu=1, $\lambda$=1}
-			\label{fig:NPL2}
-		\end{figure}
+		Teraz gdy sygnał sterowania jest już łagdoniejszy postanowiliśmy zbadać wpływ horyznto predykcji na jakość regulacji. Zauważyliśmy, że zarówno przy zmniejszaniu, jak i przy zwiększaniu wartości $N$, błąd rośnie, lecz dla dalszych horyzntów maleje przeregulowanie. Raz jeszcze postanowiliśmy znaleźć kompromis pomiędzy błędem, a przeregulowaniem. Sytuacją taką udało się osiągnąć dla $N=19$. Błąd wynosił 76.4364, natomiast przeregulowania było prawie niewidoczne.
+		Przebieg ten można zobaczyć na rys. \ref{fig:NPL2}
 		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=0.7\linewidth]{img/NPLNu3.eps}
-			\caption{Działanie regulatora NPL z nastawami N=20, Nu=3, $\lambda$=1}
+			\includegraphics[width=0.7\linewidth]{img/strojenieNPL_N_19_Nu_2_lam_4.eps}
+			\caption{Działanie regulatora NPL z nastawami N=19, Nu=2, $\lambda$=4}
+			\label{fig:NPL2}
+		\end{figure}
+	
+		\newpage
+		Następnie postanowiliśmy dobrać horyzont sterowania. Niestety zarówno przy zwiększaniu jak i zmniejszaniu horyzontu jakość regulacji pogarszała się, co można zaobserwować na wykresach \ref{fig:NPL3} i \ref{fig:NPL4}. Dla Nu równego 1 błąd regulacji co prawda spadł, ale następują niekontrolowane, ostre skoki sterowania oraz znów pojawiły się przeregulowania. Dla Nu równego 3 wejscie prezentuje się podobnie, nastomiast ucierpiało wyjście.
+		
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.7\linewidth]{img/strojenieNPL_N_19_Nu_1_lam_4.eps}
+			\caption{Działanie regulatora NPL z nastawami N=19, Nu=1, $\lambda$=4}
 			\label{fig:NPL3}
 		\end{figure}
 		
-		\newpage
-		Mając dobrane $N$ oraz $N_u$ pozostało zbadać wpływ współczynnika $\lambda$. Po zwiększeniu o jeden dało się zaobserwować spadek oscylacji, wygładzenie sterowania i spadek przeregulowania. Z drugiej strony wartość błędu wzrosła, ponieważ złagodzenie sterowania spowodowało nieznaczne spowolnienie regulacji. Postanowiliśmy zostawić $\lambda$ przy obecnej wartości 2, dla której przebieg przedstawiliśmy an wykresie \ref{fig:NPL4}. Dalsze zwiększanie tego parametru, choć zmniejszałoby skoki sterowania mogłoby końcowo doprowadzić do pogorszenia regulacji, ze względu na jej spowolnienie.
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=\linewidth]{img/NPLlam2.eps}
-			\caption{Działanie regulatora NPL z nastawami N=20, Nu=2, $\lambda$=2}
+			\includegraphics[width=\linewidth]{img/strojenieNPL_N_19_Nu_3_lam_4.eps}
+			\caption{Działanie regulatora NPL z nastawami N=19, Nu=3, $\lambda$=4}
 			\label{fig:NPL4}
 		\end{figure}
 		
@@ -130,16 +134,17 @@
 		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=\linewidth]{img/GPC.eps}
-			\caption{Działanie regulatora GPC z nastawami N=20, Nu=2, $\lambda$=2}
+			\includegraphics[width=\linewidth]{img/strojenieGPC_N_19_Nu_2_lam_4.eps}
+			\caption{Działanie regulatora GPC z nastawami N=19, Nu=2, $\lambda$=4}
 			\label{fig:GPC}
 		\end{figure}
 	
 		\newpage
 		Należy wziąć pod uwagę, że przez silną nieliniowość obiektu, liniowy algorytm GPC może generować duże sterowania, które po nałożeniu ograniczeń wprowadzą obiekt w stałe oscylacje. Można temu zapobiec poprzez zwiększenie współczynnika $\lambda$ o parę rzędów wielkości. Na rys. \ref{fig:GPC100} można zobaczyć, że jakość regulacji polepszyła się, lecz mimo to sterowanie wciąż jest zbyt ostre, a czas regulacji wolniejszy niż w przypadku NPL. W dodatku zarówno dla sterowania jak i wyjścia występują widoczne oscylacje.
+		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=\linewidth]{img/GPC100.eps}
-			\caption{Działanie regulatora GPC z nastawami N=20, Nu=2, $\lambda$=100}
+			\includegraphics[width=\linewidth]{img/strojenieGPC_N_19_Nu_2_lam_100.eps}
+			\caption{Działanie regulatora GPC z nastawami N=19, Nu=2, $\lambda$=100}
 			\label{fig:GPC100}
 		\end{figure}

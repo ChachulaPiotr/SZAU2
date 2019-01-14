@@ -7,12 +7,12 @@ na = 2;
 S = max(na,nb) + 1;
 modelBFGS_OE;
 
-reg = 0; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
+reg = 3; % 0 - NPL, 1 - GPC, 2 - PID, 3 - NO
 
 % predykcja
-N = 20;
+N = 19;
 Nu = 2;
-lambda = 2;
+lambda = 4;
 
 % NPL
 if reg == 0
