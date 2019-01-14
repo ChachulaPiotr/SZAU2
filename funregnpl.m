@@ -2,10 +2,10 @@ function [] = funregnpl()
 global N Nu lambda w1 w10 w2 w20 yz y u du ddmc k delta na nb tau;
     a = zeros(na,1);
     b = zeros(nb,1);
-    a(1) = -(snout([u(k-tau)+delta u(k-tau-1) y(k-1) y(k-2)]')-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]'))/delta;
-    a(2) = -(snout([u(k-tau) u(k-tau-1)+delta y(k-1) y(k-2)]')-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]'))/delta;
-    b(3) = (snout([u(k-tau) u(k-tau-1) y(k-1)+delta y(k-2)]')-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]'))/delta;
-    b(4) = (snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)+delta]')-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]'))/delta;
+    b(3) = (snout([u(k-tau)+delta u(k-tau-1) y(k-1) y(k-2)]')-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]'))/delta;
+    b(4) = (snout([u(k-tau) u(k-tau-1)+delta y(k-1) y(k-2)]')-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]'))/delta;
+    a(1) = -(snout([u(k-tau) u(k-tau-1) y(k-1)+delta y(k-2)]')-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]'))/delta;
+    a(2) = -(snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)+delta]')-snout([u(k-tau) u(k-tau-1) y(k-1) y(k-2)]'))/delta;
     
     s = zeros(N,1);
     for j=1:N
